@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    "add-module-exports",
+    "dynamic-import-webpack",
+    "syntax-async-functions",
+    "transform-class-properties",
+    "transform-regenerator",
+    "istanbul"
+  ],
+  "comments": false
+}
