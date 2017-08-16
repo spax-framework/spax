@@ -3,6 +3,7 @@ import createContext, { createStore, createRouter } from './context'
 import addPrefixToPath from './helpers/add-prefix'
 import injectOptionsToComponent from './helpers/inject-options'
 import analysisMap from './helpers/analysis-map'
+import prom from './shared/prom'
 import { log, error } from './shared/log'
 
 export default function SPAX () {
@@ -247,7 +248,7 @@ export default function SPAX () {
       }
     }
 
-    async function next () {
+    function next () {
       const middleware = middlewares.shift()
 
       if (middleware) {
@@ -257,7 +258,7 @@ export default function SPAX () {
         if (creator.length === 3) {
           let isRegistered = false
           // 使用回调
-          // @usage
+          // @example
           // creator: fn(context, options, register)
           creator(context, options, (...args) => {
             if (isRegistered) {
@@ -267,11 +268,16 @@ export default function SPAX () {
             register.apply(null, args)
           })
         } else {
-          // 支持异步
-          // @usage
+          // 支持异步，但是尽量不要使用，以免阻塞其它模块的加载
+          // @example
           // creator: fn(context, options)
-          const ret = await creator(context, options)
-          register.apply(null, Array.isArray(ret) ? ret : [ret])
+          prom(creator(context, options)).then(ret => {
+            register.apply(null, Array.isArray(ret) ? ret : [ret])
+          }).catch(e => {
+            log(e)
+            // 无可注册，直接 next
+            next()
+          })
         }
       } else {
         // 注册完毕

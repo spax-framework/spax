@@ -29,7 +29,7 @@ module: {
     {
       test: /\.js$/,
       // spax needs babel
-      exclude: /node_modules[/\\](?!spax)/,
+      exclude: /node_modules[/\\](?!spax[/\\])/,
       loader: 'babel-loader'
     },
     ...

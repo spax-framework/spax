@@ -20,7 +20,6 @@ describe('configure', () => {
       prefix: 'myapp'
     })
     use(({ prefix }) => {
-      // use is called async
       expect(prefix).to.equal('myapp2')
     })
     configure({

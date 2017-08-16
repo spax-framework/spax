@@ -14,7 +14,7 @@ describe('register', () => {
     }
   })
 
-  it('should register returned value', done => {
+  it('should register returns', done => {
     const { configure, use, run } = new SPAX()
 
     configure({
@@ -42,7 +42,7 @@ describe('register', () => {
     })
   })
 
-  it('should register returned async value', done => {
+  it('should register resolved returns', done => {
     const { configure, use, run } = new SPAX()
 
     configure({
@@ -70,7 +70,11 @@ describe('register', () => {
     })
   })
 
-  it('should register with injected function', done => {
+  // should bypass falsy returns
+
+  // should bypass rejected returns
+
+  it('should register with register function', done => {
     const { configure, use, run } = new SPAX()
 
     configure({

@@ -1,29 +1,24 @@
-import webpack from 'webpack'
-import { argv } from 'yargs'
+const webpack = require('webpack')
+const { argv } = require('yargs')
 
-console.log('Creating configuration...')
-
-export default cfg => cfg.set({
+module.exports = config => config.set({
   basePath: '../',
   files: [
     './node_modules/regenerator-runtime/runtime.js',
     {
-      pattern: './test/index.js',
+      pattern: './test/specs/*.spec.js',
       watched: false,
       served: true,
       included: true
     }
   ],
-  proxies: {
-    // '/api/': 'http://0.0.0.0:3000/api/'
-  },
   autoWatch: argv.dev,
   singleRun: !argv.dev,
-  logLevel: argv.dev ? cfg.LOG_INFO : cfg.LOG_ERROR,
+  logLevel: argv.dev ? config.LOG_INFO : config.LOG_ERROR,
   concurrency: Infinity,
-  frameworks: ['mocha', 'es6-shim'],
+  frameworks: ['mocha', 'chai', 'es6-shim'],
   preprocessors: {
-    'test/index.js': ['webpack', 'sourcemap']
+    './test/specs/*.spec.js': ['webpack', 'sourcemap']
   },
   reporters: ['mocha', 'coverage'],
   coverageReporter: {
@@ -46,7 +41,9 @@ export default cfg => cfg.set({
       }
     },
     plugins: [
-      new webpack.DefinePlugin({}),
+      new webpack.DefinePlugin({
+        // 'process.env.NODE_ENV': JSON.stringify('production')
+      }),
       new webpack.LoaderOptionsPlugin({
         debug: true,
         options: {
@@ -81,10 +78,6 @@ export default cfg => cfg.set({
           loader: 'babel-loader'
         }
       ]
-    },
-    node: {
-      fs: 'empty',
-      net: 'empty'
     },
     performance: {
       hints: false
