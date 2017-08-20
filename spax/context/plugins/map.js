@@ -14,8 +14,8 @@ export default {
           scope,
           prefixes,
           parent,
-          methods = {},
-          computed = {},
+          methods = Object.create(null),
+          computed = Object.create(null),
           mapState,
           mapGetters,
           mapActions
@@ -54,7 +54,9 @@ export default {
               }
             })
           } else {
-            warn('mapState must be an array: ' + JSON.stringify(mapState))
+            if (process.env.NODE_ENV !== 'production') {
+              warn('mapState must be an array: ' + JSON.stringify(mapState))
+            }
           }
         }
 
@@ -76,13 +78,17 @@ export default {
               computed[_alias] = function mappedGetter () {
                 const _key = `${_scope}/${_value}`
                 if (!(_key in this.$store.getters)) {
-                  warn('unknown getter: ' + value)
+                  if (process.env.NODE_ENV !== 'production') {
+                    warn('unknown getter: ' + value)
+                  }
                 }
                 return this.$store.getters[_key]
               }
             })
           } else {
-            warn('mapGetters must be an array: ' + JSON.stringify(mapGetters))
+            if (process.env.NODE_ENV !== 'production') {
+              warn('mapGetters must be an array: ' + JSON.stringify(mapGetters))
+            }
           }
         }
 
@@ -105,7 +111,9 @@ export default {
               }
             })
           } else {
-            warn('mapActions must be an array: ' + JSON.stringify(mapActions))
+            if (process.env.NODE_ENV !== 'production') {
+              warn('mapActions must be an array: ' + JSON.stringify(mapActions))
+            }
           }
         }
 

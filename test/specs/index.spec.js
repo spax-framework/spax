@@ -1,4 +1,5 @@
-import { configure, use, run } from '../../index.js'
+import { context, configure, use, run } from '../../index.js'
+import * as log from 'spax/shared/log'
 
 describe('SPAX', () => {
   before(() => {
@@ -14,6 +15,13 @@ describe('SPAX', () => {
     }
   })
 
+  it('should have context', () => {
+    expect(context).to.be.an('object')
+    expect(Object.keys(context)).to.include(
+      'name', 'version', 'element', 'component', 'scope', 'prefix', 'routes', 'Vue'
+    )
+  })
+
   it('should configure', () => {
     expect(configure).to.be.a('function')
     configure({
@@ -21,7 +29,7 @@ describe('SPAX', () => {
     })
   })
 
-  it('should use and run', done => {
+  it('should use and run', () => {
     use(({ prefix }, options) => {
       return [{
         store: {
@@ -38,11 +46,18 @@ describe('SPAX', () => {
     })
     run(({ store }) => {
       expect(store.state.mymod.single).to.equal('myapp')
-      done()
     })
   })
 
-  it('should call run only once', () => {
+  it('should run only once', () => {
+    sinon.spy(log, 'error')
     expect(run).to.throw(Error)
+    assert(log.error.callCount === 1)
+    process.env.NODE_ENV = 'production'
+    // should NOT throw Error in production
+    expect(run).to.not.throw(Error)
+    assert(log.error.callCount === 1)
+    process.env.NODE_ENV = 'development'
+    log.error.restore()
   })
 })

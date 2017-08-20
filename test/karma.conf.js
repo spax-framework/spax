@@ -16,7 +16,7 @@ module.exports = config => config.set({
   singleRun: !argv.dev,
   logLevel: argv.dev ? config.LOG_INFO : config.LOG_ERROR,
   concurrency: Infinity,
-  frameworks: ['mocha', 'chai', 'es6-shim'],
+  frameworks: ['mocha', 'chai', 'sinon', 'es6-shim'],
   preprocessors: {
     './test/specs/*.spec.js': ['webpack', 'sourcemap']
   },

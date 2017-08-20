@@ -3,8 +3,7 @@ import createContext, { createStore, createRouter } from './context'
 import addPrefixToPath from './helpers/add-prefix'
 import injectOptionsToComponent from './helpers/inject-options'
 import analysisMap from './helpers/analysis-map'
-import prom from './shared/prom'
-import { log, error } from './shared/log'
+import { log, warn, error } from './shared/log'
 
 export default function SPAX () {
   /**
@@ -14,7 +13,7 @@ export default function SPAX () {
   const context = createContext({
     // 全局配置项
     name: 'SPAX',
-    version: '1.0',
+    version: '0.1.0',
     element: '#app',
     component: null,
     scope: 'app',
@@ -64,11 +63,13 @@ export default function SPAX () {
    * })
    */
   function use (creator, options) {
-    if (!isFunction(creator)) {
-      error('`creator` must be a function.')
+    if (isFunction(creator)) {
+      middlewares.push({ creator, options })
+    } else {
+      if (process.env.NODE_ENV !== 'production') {
+        error('`creator` must be a function.')
+      }
     }
-
-    middlewares.push({ creator, options })
   }
 
   let isRun = false
@@ -80,7 +81,11 @@ export default function SPAX () {
    */
   function run (finale) {
     if (isRun) {
-      error('`run` should be called only once.')
+      if (process.env.NODE_ENV !== 'production') {
+        error('should `run` only once.')
+      }
+      // 不允许多次执行
+      return
     }
 
     isRun = true
@@ -90,7 +95,9 @@ export default function SPAX () {
     // 初始化 Vuex Store
     const store = createStore(context)
 
-    log('Registering modules...')
+    if (process.env.NODE_ENV !== 'production') {
+      log('Registering modules...')
+    }
 
     const callbacks = []
 
@@ -113,8 +120,10 @@ export default function SPAX () {
       // 将 prefix 添加到 vm.$options
       function injectOptions (component, injection) {
         if (isFunction(component)) {
-          if (component.super && component.super === Vue) {
-            error('Please use Single File Components. See: https://vuejs.org/v2/guide/single-file-components.html.')
+          if (process.env.NODE_ENV !== 'production') {
+            if (component.super && component.super === Vue) {
+              error('Please use Single File Components. See: https://vuejs.org/v2/guide/single-file-components.html.')
+            }
           }
           return () => component().then(component => injectOptionsToComponent(component, injection))
         } else {
@@ -173,9 +182,17 @@ export default function SPAX () {
 
       if (data) {
         // 进行 store 与 router 相关处理
-        const { options = {}, store, plugins, routes } = data
+        const { options = Object.create(null), store, plugins, routes } = data
 
         let { scope, prefix } = options
+
+        if (scope === context.scope) {
+          if (process.env.NODE_ENV !== 'production') {
+            error(`Scope ${scope} is protected.`)
+          }
+          // 直接调用下一个
+          return next()
+        }
 
         if (!prefix) {
           prefix = scope || '/'
@@ -185,11 +202,9 @@ export default function SPAX () {
           scope = `__${++scopeIndex}`
         }
 
-        if (scope === context.scope) {
-          error(`Scope ${scope} is protected.`)
+        if (process.env.NODE_ENV !== 'production') {
+          log(`Module ${scope} registered.`)
         }
-
-        log(`Module ${scope} registered.`)
 
         store && registerModule(scope, store)
         routes && registerRoutes(scope, prefix, routes)
@@ -206,8 +221,9 @@ export default function SPAX () {
     }
 
     function done () {
-      log('Executing module callbacks')
-
+      if (process.env.NODE_ENV !== 'production') {
+        log('Executing module callbacks')
+      }
       // 模块注册完成后，初始化路由，以避免重定向提前发生
       const router = createRouter(context)
 
@@ -262,22 +278,41 @@ export default function SPAX () {
           // creator: fn(context, options, register)
           creator(context, options, (...args) => {
             if (isRegistered) {
-              error('`register` should be called only once.')
+              if (process.env.NODE_ENV !== 'production') {
+                error('should call `register` only once.')
+              }
+            } else {
+              isRegistered = true
+              register.apply(null, args)
             }
-            isRegistered = true
-            register.apply(null, args)
           })
         } else {
           // 支持异步，但是尽量不要使用，以免阻塞其它模块的加载
           // @example
           // creator: fn(context, options)
-          prom(creator(context, options)).then(ret => {
-            register.apply(null, Array.isArray(ret) ? ret : [ret])
-          }).catch(e => {
-            log(e)
-            // 无可注册，直接 next
-            next()
-          })
+          const ret = creator(context, options)
+          if (ret) {
+            // Promise
+            if (typeof ret.then === 'function') {
+              ret
+                .then(ret => register.apply(null, Array.isArray(ret) ? ret : [ret]))
+                .catch(e => {
+                  if (process.env.NODE_ENV !== 'production') {
+                    warn(e)
+                  }
+                  // 无可注册，将会直接 next
+                  register()
+                })
+            } else {
+              register.apply(null, Array.isArray(ret) ? ret : [ret])
+            }
+          } else {
+            if (process.env.NODE_ENV !== 'production') {
+              log(`Module ${creator} return falsy value: ${ret}`)
+            }
+            // 无可注册，将会直接 next
+            register()
+          }
         }
       } else {
         // 注册完毕
@@ -290,6 +325,8 @@ export default function SPAX () {
   }
 
   return {
+    context,
+    middlewares,
     configure,
     use,
     run

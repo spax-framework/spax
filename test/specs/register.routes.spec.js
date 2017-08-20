@@ -1,4 +1,5 @@
 import SPAX from 'spax'
+import Vue from 'vue'
 
 describe('register.routes', () => {
   beforeEach(() => {
@@ -23,6 +24,7 @@ describe('register.routes', () => {
         template: '<router-view></router-view>'
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -38,6 +40,7 @@ describe('register.routes', () => {
         }
       }
     })
+
     run(({ prefix }) => {
       expect(prefix).to.equal('myapp')
       location.hash = '/myapp/mymod'
@@ -57,6 +60,7 @@ describe('register.routes', () => {
         template: '<router-view></router-view>'
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -73,6 +77,7 @@ describe('register.routes', () => {
         ]
       }
     })
+
     run(() => {
       location.hash = '/r1'
       setTimeout(() => {
@@ -91,6 +96,7 @@ describe('register.routes', () => {
         template: '<router-view></router-view>'
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -104,6 +110,7 @@ describe('register.routes', () => {
         ]
       }
     })
+
     run(() => {
       location.hash = '/r4'
       setTimeout(() => {
@@ -126,6 +133,7 @@ describe('register.routes', () => {
         </div>`
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -140,6 +148,7 @@ describe('register.routes', () => {
         ]
       }
     })
+
     run(() => {
       location.hash = '/'
       setTimeout(() => {
@@ -161,6 +170,7 @@ describe('register.routes', () => {
         template: '<router-view></router-view>'
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -182,6 +192,7 @@ describe('register.routes', () => {
         }
       }
     })
+
     run(() => {
       location.hash = '/myapp/mymod'
       setTimeout(() => {
@@ -205,6 +216,7 @@ describe('register.routes', () => {
         template: '<router-view></router-view>'
       }
     })
+
     use(() => {
       return {
         routes: [
@@ -224,6 +236,7 @@ describe('register.routes', () => {
         }
       }
     })
+
     run(() => {
       location.hash = '/myapp/mymod/create'
       setTimeout(() => {
@@ -231,6 +244,37 @@ describe('register.routes', () => {
         location.hash = '/'
         done()
       }, 50)
+    })
+  })
+
+  describe('exception', () => {
+    it('should ONLY use single file components', () => {
+      const { configure, use, run } = new SPAX()
+
+      configure({
+        prefix: 'myapp',
+        component: {
+          template: '<router-view></router-view>'
+        }
+      })
+
+      use(() => {
+        return {
+          routes: [
+            {
+              path: '/',
+              component: Vue.component('misc', {
+                template: '<a id="myapp-mymod">a</a>'
+              })
+            }
+          ],
+          options: {
+            prefix: 'mymod'
+          }
+        }
+      })
+
+      expect(run).to.throw(Error)
     })
   })
 })

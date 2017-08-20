@@ -14,7 +14,7 @@ describe('register', () => {
     }
   })
 
-  it('should register returns', done => {
+  it('should register returns', () => {
     const { configure, use, run } = new SPAX()
 
     configure({
@@ -38,11 +38,10 @@ describe('register', () => {
 
     run(({ store }) => {
       expect(store.state.mymod.sync).to.equal('myapp')
-      done()
     })
   })
 
-  it('should register resolved returns', done => {
+  it('should register resolved returns', () => {
     const { configure, use, run } = new SPAX()
 
     configure({
@@ -66,7 +65,6 @@ describe('register', () => {
 
     run(({ store }) => {
       expect(store.state.mymod.sync).to.equal('myapp')
-      done()
     })
   })
 
@@ -74,7 +72,7 @@ describe('register', () => {
 
   // should bypass rejected returns
 
-  it('should register with register function', done => {
+  it('should register with register function', () => {
     const { configure, use, run } = new SPAX()
 
     configure({
@@ -98,7 +96,45 @@ describe('register', () => {
 
     run(({ store }) => {
       expect(store.state.mymod.sync).to.equal('myapp')
-      done()
+    })
+  })
+
+  describe('exception', () => {
+    it('should NOT use root scope', () => {
+      const { configure, use, run } = new SPAX()
+
+      configure({
+        scope: 'myapp'
+      })
+
+      use(() => ({
+        options: {
+          scope: 'myapp'
+        }
+      }))
+
+      expect(run).to.throw(Error)
+    })
+
+    describe('production', () => {
+      it('should NOT use root scope', () => {
+        const { configure, use, run } = new SPAX()
+
+        configure({
+          scope: 'myapp'
+        })
+
+        use(() => ({
+          options: {
+            scope: 'myapp'
+          }
+        }))
+
+        process.env.NODE_ENV = 'production'
+        // TODO: 检查注册情况
+        expect(run).to.not.throw(Error)
+        process.env.NODE_ENV = 'developmemnt'
+      })
     })
   })
 })

@@ -14,22 +14,12 @@ describe('configure', () => {
     }
   })
 
-  it('should configure', done => {
-    const { configure, use, run } = new SPAX()
+  it('should configure', () => {
+    const { context, configure } = new SPAX()
+    expect(context.prefix).to.equal('/')
     configure({
       prefix: 'myapp'
     })
-    use(({ prefix }) => {
-      expect(prefix).to.equal('myapp2')
-    })
-    configure({
-      prefix: 'myapp2'
-    })
-    use(({ prefix }) => {
-      expect(prefix).to.equal('myapp2')
-    })
-    run(() => {
-      done()
-    })
+    expect(context.prefix).to.equal('myapp')
   })
 })

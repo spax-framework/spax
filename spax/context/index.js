@@ -13,7 +13,7 @@ export default props => {
   Vue.use(redirect)
 
   // create context
-  return Object.assign(new Vue({}), props, { Vue })
+  return Object.assign(new Vue(), props, { Vue })
 }
 
 export function createStore (context) {

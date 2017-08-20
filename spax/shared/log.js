@@ -1,9 +1,11 @@
-import noop from './noop'
-
-export const log = process.env.NODE_ENV === 'production' ? noop : function log (msg) {
+export const log = function log (msg) {
   console.log(`[SPAX]: ${msg}`)
 }
 
-export const error = process.env.NODE_ENV === 'production' ? noop : function error (msg) {
+export const warn = function warn (msg) {
+  console.error(`[SPAX warn]: ${msg}`)
+}
+
+export const error = function error (msg) {
   throw new Error(`[SPAX error]: ${msg}`)
 }
