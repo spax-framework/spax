@@ -3,6 +3,7 @@ import Vuex, { Store } from 'vuex'
 import Router from 'vue-router'
 import map from 'spax/context/plugins/map'
 import redirect from 'spax/context/plugins/redirect'
+import * as log from 'spax/shared/log'
 
 Vue.use(Vuex)
 Vue.use(Router)
@@ -23,7 +24,7 @@ Vue.mixin({
 })
 
 // prepare
-process.env.NODE_ENV = 'production'
+// process.env.NODE_ENV = 'production'
 Vue.component('c-comp', {
   template: '<c-comp-child></c-comp-child>'
 })
@@ -82,6 +83,26 @@ describe('map', () => {
     it('should have `a1`', () => {
       expect(vm.a1).to.equal(1)
     })
+
+    describe('exception', () => {
+      it('should warn mapState type', () => {
+        function fn () {
+          new Vue({
+            template: '<c-comp></c-comp>',
+            mapState: 'a'
+          }).$mount()
+        }
+
+        sinon.spy(log, 'warn')
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'production'
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'development'
+        log.warn.restore()
+      })
+    })
   })
 
   describe('mapGetters', () => {
@@ -125,6 +146,59 @@ describe('map', () => {
     it('should have `a1`', () => {
       expect(vm.a1).to.equal(1)
     })
+
+    describe('exception', () => {
+      it('should warn mapGetters type', () => {
+        function fn () {
+          new Vue({
+            template: '<c-comp></c-comp>',
+            mapGetters: 'a'
+          }).$mount()
+        }
+
+        sinon.spy(log, 'warn')
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'production'
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'development'
+        log.warn.restore()
+      })
+
+      it('should warn unknown getter', () => {
+        const vm = new Vue({
+          template: '<c-comp></c-comp>',
+          scope: 'test',
+          // mocking $store
+          store: {
+            modules: {
+              test: {
+                namespaced: true,
+                state: {
+                  _a: 1
+                },
+                getters: {
+                  b (state) {
+                    return state._a
+                  }
+                }
+              }
+            }
+          },
+          mapGetters: ['a']
+        }).$mount()
+
+        sinon.spy(log, 'warn')
+        vm.a
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'production'
+        vm.a
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'development'
+        log.warn.restore()
+      })
+    })
   })
 
   describe('mapActions', () => {
@@ -165,6 +239,25 @@ describe('map', () => {
         expect(args).to.eql(['mod1/a', 1, 2, 3])
       }
       vm.a1(1, 2, 3)
+    })
+
+    describe('exception', () => {
+      it('should warn mapActions type', () => {
+        function fn () {
+          new Vue({
+            template: '<c-comp></c-comp>',
+            mapActions: 'a'
+          }).$mount()
+        }
+        sinon.spy(log, 'warn')
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'production'
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'development'
+        log.warn.restore()
+      })
     })
   })
 })
@@ -249,3 +342,4 @@ describe('redirect', () => {
     }, 200)
   })
 })
+

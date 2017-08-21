@@ -279,7 +279,7 @@ export default function SPAX () {
           creator(context, options, (...args) => {
             if (isRegistered) {
               if (process.env.NODE_ENV !== 'production') {
-                error('should call `register` only once.')
+                error('should `register` only once.')
               }
             } else {
               isRegistered = true

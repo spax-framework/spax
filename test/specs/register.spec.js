@@ -97,6 +97,31 @@ describe('register', () => {
     run(({ store }) => {
       expect(store.state.mymod.sync).to.equal('myapp')
     })
+
+    describe('exception', () => {
+      it('should register only once', () => {
+        const { configure, use, run } = new SPAX()
+
+        configure({
+          prefix: 'myapp'
+        })
+
+        use((context, options, register) => {
+          register({
+            options
+          })
+          expect(register).to.throw(Error)
+          process.env.NODE_ENV = 'production'
+          // should NOT throw Error in production
+          expect(register).to.not.throw(Error)
+          process.env.NODE_ENV = 'development'
+        }, {
+          scope: 'mymod'
+        })
+
+        run()
+      })
+    })
   })
 
   describe('exception', () => {

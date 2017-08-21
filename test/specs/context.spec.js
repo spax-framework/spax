@@ -10,11 +10,13 @@ describe('context', () => {
       expect(context.$once).to.be.a('function')
       expect(context.$emit).to.be.a('function')
     })
+
     it('should have store', () => {
       expect(context.store).to.be.undefined
       createStore(context)
       expect(context.store).to.be.a('object')
     })
+
     it('should have router', () => {
       expect(context.router).to.be.undefined
       createRouter(context)
@@ -31,11 +33,13 @@ describe('context', () => {
       expect(context.$once).to.be.a('function')
       expect(context.$emit).to.be.a('function')
     })
+
     it('should have router', () => {
       expect(context.router).to.be.undefined
       createRouter(context)
       expect(context.router).to.be.a('object')
     })
+
     it('should have store', () => {
       expect(context.store).to.be.undefined
       createStore(context)
