@@ -1,0 +1,43 @@
+{
+  "i18n": {},
+  "validator": {
+    "required": "الرجاء إدخال {0}",
+    "minlength": "{0} يجب أن لا يقل عن {1} حرف",
+    "maxlength": "{0} يجب أن لا يزيد عن {1} حرف",
+    "pattern": "{0} ليست صحيحة"
+  },
+  "config": {
+    "language": "لغة",
+    "transition": "حيوية"
+  },
+  "user": {
+    "login": {
+      "username": "حساب",
+      "password": "كلمة المرور",
+      "submit": "عرض",
+      "confirm": "تأكد من تقديم؟"
+    },
+    "logout": {
+      "submit": "استقال",
+      "confirm": "تأكيد الخروج؟"
+    }
+  },
+  "faq": {
+    "index": {
+      "nothing": "لا شى",
+      "delete": "حذف",
+      "confirm": "تأكيد لحذف؟"
+    },
+    "create": {
+      "title": "عنوان",
+      "content": "محتوى",
+      "submit": "عرض",
+      "confirm": "إرسال؟"
+    }
+  },
+  "about": {
+    "source": "مصدر الرمز"
+  },
+  "demo": {},
+  "core": {}
+}

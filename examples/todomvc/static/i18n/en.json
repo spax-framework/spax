@@ -1,0 +1,13 @@
+{
+  "todo": {
+    "todos": "todos",
+    "What needs to be done?": "What needs to be done?",
+    "All": "All",
+    "Active": "Active",
+    "Completed": "Completed",
+    "item": "item",
+    "items": "items",
+    "left": "left",
+    "Clear completed": "Clear completed"
+  }
+}

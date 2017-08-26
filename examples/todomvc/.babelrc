@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "es2015",
+    "stage-0"
+  ],
+  "plugins": [
+    "add-module-exports",
+    "dynamic-import-webpack"
+  ],
+  "comments": false
+}

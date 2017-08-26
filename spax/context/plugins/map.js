@@ -5,7 +5,7 @@ export default {
   install (Vue) {
     /**
      * 注册生命周期 `beforeCreate` 函数
-     * 进行 mapState/mapGetters/mapActions 数据处理
+     * 进行 mapState/mapGetters/mapMutation s 数据处理
      * !!! 此处的 map*** 不同于 vuex 的 map***，作用类似，用法不同
      */
     Vue.mixin({
@@ -18,7 +18,8 @@ export default {
           computed = Object.create(null),
           mapState,
           mapGetters,
-          mapActions
+          mapActions,
+          mapMutations
         } = this.$options
 
         // scope injection
@@ -113,6 +114,31 @@ export default {
           } else {
             if (process.env.NODE_ENV !== 'production') {
               warn('mapActions must be an array: ' + JSON.stringify(mapActions))
+            }
+          }
+        }
+
+        if (mapMutations) {
+          /**
+           * 将 mapMutations 转成 methods
+           * @example
+           * // 映射当前 scope 的 mutations 里的值
+           * mapMutations: ['mutation1', 'mutation2']
+           * // 映射指定 scope 的 mutations 里的值
+           * mapMutations: ['scope1/mutation1', 'scope2/mutation2']
+           * // 设置别名, 区别不同 scope 的 mutations
+           * mapGetters: ['scope1/mutation1', 'scope2/mutation1 as mutation2']
+           */
+          if (Array.isArray(mapMutations)) {
+            mapMutations.forEach(value => {
+              const { alias: _alias, scope: _scope, value: _value } = analysisMap(value, this.$scope)
+              methods[_alias] = function mappedMutation (...args) {
+                return this.$store.commit(`${_scope}/${_value}`, ...args)
+              }
+            })
+          } else {
+            if (process.env.NODE_ENV !== 'production') {
+              warn('mapMutations must be an array: ' + JSON.stringify(mapMutations))
             }
           }
         }
