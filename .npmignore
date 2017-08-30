@@ -1,0 +1,10 @@
+.DS_STORE
+*.log
+*.out
+
+.vscode
+coverage
+node_modules
+test
+examples
+assets
