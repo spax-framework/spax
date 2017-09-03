@@ -260,6 +260,66 @@ describe('map', () => {
       })
     })
   })
+
+  describe('mapMutations', () => {
+    const vm = new Vue({
+      scope: 'test',
+      // mocking $store
+      store: {
+        modules: {
+          test: {
+            namespaced: true,
+            actions: {
+              a () { }
+            }
+          },
+          mod1: {
+            namespaced: true,
+            actions: {
+              a () { }
+            }
+          }
+        }
+      },
+      template: '<c-comp></c-comp>',
+      mapMutations: ['a', 'mod1/a as a1']
+    }).$mount()
+
+    it('should have `a`', () => {
+      expect(vm.a).to.be.a('function')
+      vm.$store.commit = (...args) => {
+        expect(args).to.eql(['test/a', 1, 2, 3])
+      }
+      vm.a(1, 2, 3)
+    })
+
+    it('should have `a1`', () => {
+      expect(vm.a1).to.be.a('function')
+      vm.$store.commit = (...args) => {
+        expect(args).to.eql(['mod1/a', 1, 2, 3])
+      }
+      vm.a1(1, 2, 3)
+    })
+
+    describe('exception', () => {
+      it('should warn mapMutations type', () => {
+        function fn () {
+          new Vue({
+            template: '<c-comp></c-comp>',
+            mapMutations: 'a'
+          }).$mount()
+        }
+        sinon.spy(log, 'warn')
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'production'
+        fn()
+        assert(log.warn.callCount === 1)
+        process.env.NODE_ENV = 'development'
+        log.warn.restore()
+      })
+    })
+  })
 })
 
 describe('redirect', () => {
