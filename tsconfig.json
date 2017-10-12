@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "module": "es6",
+    "moduleResolution": "node",
+    "lib": [
+      "dom",
+      "es5",
+      "es6"
+    ]
+  }
+}

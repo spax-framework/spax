@@ -1,7 +1,7 @@
 /**
  * 向组件 options 注入数据
  */
-export default function injectOptionsToComponent (component, injection) {
+export default function injectOptionsToComponent (component: object, injection: object) {
   if (component) {
     Object.assign(component, injection)
     if (process.env.NODE_ENV !== 'production') {

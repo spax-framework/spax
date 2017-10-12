@@ -1,31 +1,31 @@
-import analysisMap from 'spax/helpers/analysis-map'
+import analyseMap from 'spax/helpers/analyse-map'
 import addPrefixToPath from 'spax/helpers/add-prefix'
 import injectOptionsToComponent from 'spax/helpers/inject-options'
 
-describe('analysisMap', () => {
+describe('analyseMap', () => {
   it('`s/v as a`', () => {
-    const { scope, value, alias } = analysisMap('scope1/value1 as value2')
+    const { scope, value, alias } = analyseMap('scope1/value1 as value2')
     expect(scope).to.equal('scope1')
     expect(value).to.equal('value1')
     expect(alias).to.equal('value2')
   })
 
   it('`s/v`', () => {
-    const { scope, value, alias } = analysisMap('scope1/value1')
+    const { scope, value, alias } = analyseMap('scope1/value1')
     expect(scope).to.equal('scope1')
     expect(value).to.equal('value1')
     expect(alias).to.equal('value1')
   })
 
   it('`v, s`', () => {
-    const { scope, value, alias } = analysisMap('value1', 'scope1')
+    const { scope, value, alias } = analyseMap('value1', 'scope1')
     expect(scope).to.equal('scope1')
     expect(value).to.equal('value1')
     expect(alias).to.equal('value1')
   })
 
   it('`v as a, s`', () => {
-    const { scope, value, alias } = analysisMap('value1 as value2', 'scope1')
+    const { scope, value, alias } = analyseMap('value1 as value2', 'scope1')
     expect(scope).to.equal('scope1')
     expect(value).to.equal('value1')
     expect(alias).to.equal('value2')

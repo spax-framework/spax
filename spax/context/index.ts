@@ -5,7 +5,7 @@ import redirect from './plugins/redirect'
 import createVuexStore from './creators/create-vuex-store'
 import createVueRouter from './creators/create-vue-router'
 
-export default props => {
+export default (props: ContextOptions): Context => {
   /**
    * Vue plugins
    */
@@ -13,10 +13,10 @@ export default props => {
   Vue.use(redirect)
 
   // create context
-  return Object.assign(new Vue(), props, { Vue })
+  return Object.assign(new Vue(), props, { Vue, mounted: false })
 }
 
-export function createStore (context) {
+export function createStore (context: Context) {
   const { modules, plugins, router } = context
 
   // create store and router
@@ -30,7 +30,7 @@ export function createStore (context) {
   return store
 }
 
-export function createRouter (context) {
+export function createRouter (context: Context) {
   const { store, routes } = context
   const router = context.router = createVueRouter(routes)
 

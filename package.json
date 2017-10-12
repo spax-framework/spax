@@ -37,6 +37,7 @@
     "vuex-router-sync": "^4.2.0"
   },
   "devDependencies": {
+    "@types/node": "^8.0.33",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
@@ -66,6 +67,9 @@
     "mocha": "^3.5.0",
     "regenerator-runtime": "^0.11.0",
     "sinon": "^3.2.1",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3",
+    "vue-class-component": "^5.0.2",
     "vue-loader": "^13.0.4",
     "vue-template-compiler": "^2.4.2",
     "webpack": "^3.5.5",

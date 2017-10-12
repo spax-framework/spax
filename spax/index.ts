@@ -1,8 +1,9 @@
+import Vue from 'vue'
 import isFunction from 'lodash/isFunction'
 import createContext, { createStore, createRouter } from './context'
 import addPrefixToPath from './helpers/add-prefix'
 import injectOptionsToComponent from './helpers/inject-options'
-import analysisMap from './helpers/analysis-map'
+import analyseMap from './helpers/analyse-map'
 import { log, warn, error } from './shared/log'
 
 export default function SPAX () {
@@ -10,7 +11,7 @@ export default function SPAX () {
    * 上下文，用于储存全局数据
    * 这里使用 Vue 实例的一个好处是可以直接使用 Vue 的一些特性，比如事件订阅
    */
-  const context = createContext({
+  const context: Context = createContext({
     // 全局配置项
     name: 'SPAX',
     version: '0.1.0',
@@ -240,13 +241,13 @@ export default function SPAX () {
       callbacks.forEach(callback => callback({
         dispatch (type, payload) {
           ensure(() => {
-            const { scope, value } = analysisMap(type, callback.scope || context.scope)
+            const { scope, value } = analyseMap(type, callback.scope || context.scope)
             store.dispatch(`${scope}/${value}`, payload)
           })
         },
         subscribe (prop, handler) {
           ensure(() => {
-            const { scope, value } = analysisMap(prop, callback.scope || context.scope)
+            const { scope, value } = analyseMap(prop, callback.scope || context.scope)
             // 复用根 Vm
             context.vm.$watch(`$store.state.${scope}.${value}`, handler)
             handler(context.vm.$store.state[scope][value], true)
