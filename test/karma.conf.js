@@ -30,12 +30,12 @@ module.exports = config => config.set({
       { type: 'json-summary', file: 'lcov.json' }
     ]
   },
-  browsers: ['ChromeHeadless'],
+  browsers: ['Chrome'],
   webpack: {
     devtool: 'cheap-module-source-map',
     resolve: {
       modules: ['.', 'node_modules'],
-      extensions: ['.js', '.json', '.vue'],
+      extensions: ['.ts', '.js', '.json', '.vue'],
       alias: {
         vue: 'vue/dist/vue'
       }
@@ -54,16 +54,6 @@ module.exports = config => config.set({
     module: {
       rules: [
         {
-          test: /\.(js|vue)$/,
-          exclude: /node_modules/,
-          loader: 'eslint-loader',
-          options: {
-            emitWarning: true,
-            formatter: require('eslint-friendly-formatter')
-          },
-          enforce: 'pre'
-        },
-        {
           test: /\.vue$/,
           loader: 'vue-loader',
           options: {
@@ -71,6 +61,15 @@ module.exports = config => config.set({
               js: 'babel-loader'
             }
           }
+        },
+        {
+          test: /\.ts$/,
+          exclude: /node_modules/,
+          use: [{
+            loader: 'babel-loader'
+          }, {
+            loader: 'ts-loader'
+          }]
         },
         {
           test: /\.js$/,

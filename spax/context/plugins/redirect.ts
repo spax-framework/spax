@@ -2,13 +2,13 @@ import isPlainObject from 'lodash/isPlainObject'
 import addPrefixToPath from '../../helpers/add-prefix'
 
 export default {
-  install (Vue) {
+  install (Vue: any) {
     /**
      * 因为模块内可能直接调用修改前的路由，
      * 所以需要提供一个自定义方法以确保可以跳转到添加了 prefixes 的路由。
      * @todo 支持命名路由
      */
-    Vue.prototype.$redirect = function (location, replace) {
+    Vue.prototype.$redirect = function (location: any, replace: boolean) {
       let realPath
 
       if (isPlainObject(location)) {

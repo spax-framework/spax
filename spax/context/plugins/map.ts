@@ -2,7 +2,7 @@ import analyseMap from '../../helpers/analyse-map'
 import { warn } from '../../shared/log'
 
 export default {
-  install (Vue) {
+  install (Vue: any) {
     /**
      * 注册生命周期 `beforeCreate` 函数
      * 进行 mapState/mapGetters/mapMutation s 数据处理
@@ -107,7 +107,7 @@ export default {
           if (Array.isArray(mapActions)) {
             mapActions.forEach(value => {
               const { alias: _alias, scope: _scope, value: _value } = analyseMap(value, this.$scope)
-              methods[_alias] = function mappedAction (...args) {
+              methods[_alias] = function mappedAction (...args: any[]) {
                 return this.$store.dispatch(`${_scope}/${_value}`, ...args)
               }
             })
@@ -132,7 +132,7 @@ export default {
           if (Array.isArray(mapMutations)) {
             mapMutations.forEach(value => {
               const { alias: _alias, scope: _scope, value: _value } = analyseMap(value, this.$scope)
-              methods[_alias] = function mappedMutation (...args) {
+              methods[_alias] = function mappedMutation (...args: any[]) {
                 return this.$store.commit(`${_scope}/${_value}`, ...args)
               }
             })

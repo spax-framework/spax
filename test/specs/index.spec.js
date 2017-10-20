@@ -1,4 +1,4 @@
-import { context, configure, use, run } from '../../index.js'
+import { context, configure, use, run } from '../../index.ts'
 import * as log from 'spax/shared/log'
 
 describe('SPAX', () => {

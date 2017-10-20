@@ -31,15 +31,15 @@
   "homepage": "https://github.com/spax-framework/spax",
   "dependencies": {
     "lodash": "^4.17.4",
-    "vue": "^2.4.2",
-    "vue-router": "^2.7.0",
-    "vuex": "^2.3.1",
-    "vuex-router-sync": "^4.2.0"
+    "vue": "^2.5.2",
+    "vue-router": "^3.0.1",
+    "vuex": "^3.0.0",
+    "vuex-router-sync": "^5.0.0"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.77",
     "@types/node": "^8.0.33",
     "babel-core": "^6.25.0",
-    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-add-module-exports": "^0.2.1",
     "babel-plugin-dynamic-import-webpack": "^1.0.1",
@@ -48,12 +48,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.1.1",
     "chromedriver": "^2.31.0",
-    "css-loader": "^0.28.4",
-    "eslint": "^4.3.0",
-    "eslint-friendly-formatter": "^3.0.0",
-    "eslint-loader": "^1.9.0",
-    "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-html": "^3.1.1",
+    "css-loader": "^0.28.7",
     "karma": "^1.7.0",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^2.2.0",
@@ -67,11 +62,10 @@
     "mocha": "^3.5.0",
     "regenerator-runtime": "^0.11.0",
     "sinon": "^3.2.1",
-    "tslint": "^5.7.0",
+    "ts-loader": "^3.0.5",
     "typescript": "^2.5.3",
-    "vue-class-component": "^5.0.2",
     "vue-loader": "^13.0.4",
-    "vue-template-compiler": "^2.4.2",
+    "vue-template-compiler": "^2.5.2",
     "webpack": "^3.5.5",
     "yargs": "^8.0.2"
   }

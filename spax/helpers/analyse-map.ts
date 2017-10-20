@@ -1,9 +1,3 @@
-interface ValueMap  {
-  scope: string
-  value: string
-  alias: string
-}
-
 /**
  * 解析 getter、actions、state，支持别名和模块名
  */

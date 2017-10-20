@@ -1,2 +1,2 @@
-import SPAX from './spax'
-export default new SPAX()
+import create from './spax'
+export default create()

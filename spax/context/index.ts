@@ -1,11 +1,14 @@
 import Vue from 'vue'
+import Router from 'vue-router'
+import { Store } from 'vuex'
 import { sync } from 'vuex-router-sync'
+import createVueRouter from './creators/create-vue-router'
+import createVuexStore from './creators/create-vuex-store'
 import map from './plugins/map'
 import redirect from './plugins/redirect'
-import createVuexStore from './creators/create-vuex-store'
-import createVueRouter from './creators/create-vue-router'
 
-export default (props: ContextOptions): Context => {
+// returns Context
+export default (props: ContextOptions): any => {
   /**
    * Vue plugins
    */
@@ -13,10 +16,10 @@ export default (props: ContextOptions): Context => {
   Vue.use(redirect)
 
   // create context
-  return Object.assign(new Vue(), props, { Vue, mounted: false })
+  return Object.assign(new Vue(), props, { mounted: false })
 }
 
-export function createStore (context: Context) {
+export function createStore (context: Context): Store<any> {
   const { modules, plugins, router } = context
 
   // create store and router
@@ -30,7 +33,7 @@ export function createStore (context: Context) {
   return store
 }
 
-export function createRouter (context: Context) {
+export function createRouter (context: Context): Router {
   const { store, routes } = context
   const router = context.router = createVueRouter(routes)
 
