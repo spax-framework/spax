@@ -8,6 +8,9 @@
     "index.js",
     "spax"
   ],
+  "types": [
+    "types/index.d.ts"
+  ],
   "scripts": {
     "prepublishOnly": "npm test",
     "test": "karma start ./test/karma.conf.js",
