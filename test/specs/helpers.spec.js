@@ -60,19 +60,6 @@ describe('injectOptionsToComponent', () => {
     expect(injectOptionsToComponent({}, { x: 1 }).x).to.equal(1)
   })
 
-  it('开发环境', () => {
-    process.env.NODE_ENV = 'development'
-    const c = injectOptionsToComponent({
-      _Ctor: [
-        {
-          options: {}
-        }
-      ]
-    }, { x: 1 })
-    expect(c.x).to.equal(1)
-    expect(c._Ctor[0].options.x).to.equal(1)
-  })
-
   it('component 为空', () => {
     process.env.NODE_ENV = 'production'
     expect(injectOptionsToComponent(null, { x: 1 })).to.be.null
