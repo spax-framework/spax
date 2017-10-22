@@ -27,10 +27,10 @@ module: {
   rules: [
     ...
     {
-      test: /\.js$/,
-      // spax needs babel
+      test: /\.ts$/,
+      // spax needs babel and ts
       exclude: /node_modules[/\\](?!spax[/\\])/,
-      loader: 'babel-loader'
+      loader: 'babel-loader!ts-loader'
     },
     ...
   ]

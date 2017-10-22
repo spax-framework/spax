@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { Store } from 'vuex'
 import isFunction from 'lodash/isFunction'
 import createContext, { createStore, createRouter } from './context'
@@ -30,6 +29,8 @@ export default function create (): SPAX {
     // for Vue-Router
     routes: [],
   })
+
+  const { Vue } = context
 
   /**
    * 全局配置

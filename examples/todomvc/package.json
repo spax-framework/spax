@@ -30,8 +30,10 @@
     "postcss-reporter": "^5.0.0",
     "postcss-url": "^7.1.2",
     "regenerator-runtime": "^0.11.0",
-    "vue-loader": "^13.0.2",
-    "vue-template-compiler": "^2.4.2",
+    "ts-loader": "^3.0.5",
+    "typescript": "^2.5.3",
+    "vue-loader": "^13.0.4",
+    "vue-template-compiler": "^2.5.2",
     "webpack": "^3.5.5",
     "webpack-dev-server": "^2.7.1",
     "yargs": "^8.0.2"

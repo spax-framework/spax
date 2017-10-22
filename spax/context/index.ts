@@ -16,7 +16,7 @@ export default (props: ContextOptions): any => {
   Vue.use(redirect)
 
   // create context
-  return Object.assign(new Vue(), props, { mounted: false })
+  return Object.assign(new Vue(), props, { Vue, mounted: false })
 }
 
 export function createStore (context: Context): Store<any> {

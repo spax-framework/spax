@@ -30,9 +30,9 @@ const webpackConfig = {
   target: 'web',
   resolve: {
     modules: [__dirname, 'node_modules'],
-    extensions: ['.css', '.js', '.json', '.vue'],
+    extensions: ['.ts', '.js', '.json', '.vue', '.css'],
     alias: {
-      spax: path.resolve(__dirname, '../../index.js')
+      spax: path.resolve(__dirname, '../../index.ts')
     }
   },
   node: {
@@ -71,21 +71,31 @@ const webpackConfig = {
           postcss: postcssOptions,
           autoprefixer: false,
           loaders: {
-            js: 'babel-loader'
+            js: 'babel-loader',
+            ts: 'babel-loader!ts-loader'
           },
           // 必须为 true，否则 vue-loader@12.0.0 会导致 css 加载顺序混乱
           extractCSS: true
         }
       },
       {
-        test: /\.css$/,
-        loader: 'postcss-loader',
-        options: postcssOptions
+        test: /\.ts$/,
+        exclude: /node_modules/,
+        use: [{
+          loader: 'babel-loader'
+        }, {
+          loader: 'ts-loader'
+        }]
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
+      },
+      {
+        test: /\.css$/,
+        loader: 'postcss-loader',
+        options: postcssOptions
       }
     ]
   },

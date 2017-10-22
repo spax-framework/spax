@@ -30,7 +30,7 @@ module.exports = config => config.set({
       { type: 'json-summary', file: 'lcov.json' }
     ]
   },
-  browsers: ['Chrome'],
+  browsers: ['ChromeHeadless'],
   webpack: {
     devtool: 'cheap-module-source-map',
     resolve: {
@@ -58,7 +58,7 @@ module.exports = config => config.set({
           loader: 'vue-loader',
           options: {
             loaders: {
-              js: 'babel-loader'
+              js: 'babel-loader!ts-loader'
             }
           }
         },
