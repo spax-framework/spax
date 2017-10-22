@@ -1,14 +1,3 @@
-// import Vue from "vue"
-// import { Store } from 'vuex'
-// import Router, { RouteConfig } from 'vue-router'
-
-// declare module "*.vue" {
-//   import Vue from "vue"
-//   export default Vue
-// }
-
-// declare function Creator (): void
-
 interface SPAX {
   context: Context
   middlewares: Middleware[]
@@ -80,24 +69,3 @@ declare type CBObj = [CBFunc, string]
 declare type Creator = (context: Context, options: object) => any
 declare type Finale = (context: Context) => any
 declare type Register = (data?: object, callback?: CBFunc) => any
-
-
-// interface ContextOptions {
-//   name?: string
-//   version?: string
-//   element?: string
-//   component?: Vue
-//   scope?: string
-//   prefix?: string
-//   modules?: object
-//   plugins?: object
-//   routes?: RouteConfig[]
-// }
-
-// interface Context extends Vue, ContextOptions {
-//   store?: Store<any>
-//   router?: Router
-//   Vue?: Vue
-//   vm: Vue
-//   mounted: boolean
-// }
