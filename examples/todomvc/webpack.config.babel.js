@@ -32,14 +32,14 @@ const webpackConfig = {
     modules: [__dirname, 'node_modules'],
     extensions: ['.ts', '.js', '.json', '.vue', '.css'],
     alias: {
-      spax: path.resolve(__dirname, '../../index.ts')
+      spax: path.resolve(__dirname, '../../src')
     }
   },
   node: {
     fs: 'empty',
     net: 'empty'
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     host: '0.0.0.0',
     port: 3000,

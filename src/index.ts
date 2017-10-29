@@ -6,7 +6,7 @@ import injectOptionsToComponent from './helpers/inject-options'
 import analyseMap from './helpers/analyse-map'
 import { log, warn, error } from './shared/log'
 
-export default function create (): SPAX {
+export default function createSPAX (options?: ContextOptions): SPAX {
   /**
    * 上下文，用于储存全局数据
    * 这里使用 Vue 实例的一个好处是可以直接使用 Vue 的一些特性，比如事件订阅
@@ -28,16 +28,10 @@ export default function create (): SPAX {
 
     // for Vue-Router
     routes: [],
+    ...options,
   })
 
   const { Vue } = context
-
-  /**
-   * 全局配置
-   */
-  function configure (options: object) {
-    Object.assign(context, options)
-  }
 
   function mountComponentToElement () {
     const { router, store, scope, prefix, element, component } = context
@@ -316,7 +310,6 @@ export default function create (): SPAX {
   return {
     context,
     middlewares,
-    configure,
     use,
     run
   }

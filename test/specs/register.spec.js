@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('register', () => {
   beforeEach(() => {
@@ -15,9 +15,7 @@ describe('register', () => {
   })
 
   it('should register returns', () => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       prefix: 'myapp'
     })
 
@@ -42,9 +40,7 @@ describe('register', () => {
   })
 
   it('should register resolved returns', () => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       prefix: 'myapp'
     })
 
@@ -74,9 +70,7 @@ describe('register', () => {
 
   describe('exception', () => {
     it('should NOT use root scope', () => {
-      const { configure, use, run } = new SPAX()
-
-      configure({
+      const { use, run } = createSPAX({
         scope: 'myapp'
       })
 
@@ -91,9 +85,7 @@ describe('register', () => {
 
     describe('production', () => {
       it('should NOT use root scope', () => {
-        const { configure, use, run } = new SPAX()
-
-        configure({
+        const { use, run } = createSPAX({
           scope: 'myapp'
         })
 

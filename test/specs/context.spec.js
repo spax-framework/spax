@@ -1,4 +1,4 @@
-import createContext, { createStore, createRouter } from 'spax/context'
+import createContext, { createStore, createRouter } from 'src/context'
 
 describe('context', () => {
   describe('creation flow: 1', () => {

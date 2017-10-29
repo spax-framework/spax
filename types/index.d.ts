@@ -1,7 +1,6 @@
 interface SPAX {
   context: Context
   middlewares: Middleware[]
-  configure: (options: object) => void
   use: (creator: Creator, options: object) => void
   run: (finale?: Finale) => void
 }

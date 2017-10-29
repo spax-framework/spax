@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('configure', () => {
   before(() => {
@@ -15,11 +15,9 @@ describe('configure', () => {
   })
 
   it('should configure', () => {
-    const { context, configure } = new SPAX()
-    expect(context.prefix).to.equal('/')
-    configure({
+    expect(createSPAX().context.prefix).to.equal('/')
+    expect(createSPAX({
       prefix: 'myapp'
-    })
-    expect(context.prefix).to.equal('myapp')
+    }).context.prefix).to.equal('myapp')
   })
 })

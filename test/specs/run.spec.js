@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('run', () => {
   before(() => {
@@ -14,9 +14,7 @@ describe('run', () => {
     }
   })
 
-  const { configure, run } = new SPAX()
-
-  configure({
+  const { run } = createSPAX({
     prefix: 'myapp'
   })
 

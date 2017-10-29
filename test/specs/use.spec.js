@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('use', () => {
   before(() => {
@@ -15,7 +15,7 @@ describe('use', () => {
   })
 
   it('should ONLY accept function creator', () => {
-    const { middlewares, use } = new SPAX()
+    const { middlewares, use } = createSPAX()
     const a = function () {}
     const b = {}
     use(a)
@@ -25,7 +25,7 @@ describe('use', () => {
   })
 
   it('should ONLY execute creator after run', () => {
-    const { use, run } = new SPAX()
+    const { use, run } = createSPAX()
     let a = 1
     use(({ prefix }) => {
       // 在 run 之后才执行到此处

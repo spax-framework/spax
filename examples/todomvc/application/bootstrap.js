@@ -1,4 +1,4 @@
-import { configure, use, run } from 'spax'
+import createSPAX from 'spax'
 
 import logger from 'modules/logger'
 import persist from 'modules/persist'
@@ -10,9 +10,9 @@ import Root from './views/root'
 import translations from 'static/i18n/zh.json'
 
 /**
- * 全局配置
+ * 初始化
  */
-configure({
+const { use, run } = createSPAX({
   // 项目名称
   name: 'TODO',
   // 项目版本号

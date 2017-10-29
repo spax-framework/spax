@@ -1,18 +1,20 @@
 {
   "name": "spax",
-  "version": "0.2.0",
+  "version": "1.0.0-alpha",
   "description": "Single Page Application Extended",
   "main": "index.js",
-  "module": "index.js",
+  "module": "lib/index.js",
   "files": [
     "index.js",
-    "spax"
+    "lib"
   ],
   "types": [
     "types/index.d.ts"
   ],
   "scripts": {
     "prepublishOnly": "npm test",
+    "prepublish": "npm run build",
+    "build": "node ./scripts/build.js",
     "test": "karma start ./test/karma.conf.js",
     "dev": "npm test -- --dev"
   },
@@ -64,6 +66,9 @@
     "karma-webpack": "^2.0.4",
     "mocha": "^3.5.0",
     "regenerator-runtime": "^0.11.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-buble": "^0.16.0",
+    "rollup-plugin-typescript2": "^0.8.0",
     "sinon": "^3.2.1",
     "ts-loader": "^3.0.5",
     "typescript": "^2.5.3",

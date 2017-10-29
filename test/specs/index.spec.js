@@ -1,5 +1,9 @@
-import { context, configure, use, run } from '../../index.ts'
-import * as log from 'spax/shared/log'
+import createSPAX from 'src'
+import * as log from 'src/shared/log'
+
+const { context, use, run } = createSPAX({
+  prefix: 'myapp'
+})
 
 describe('SPAX', () => {
   before(() => {
@@ -20,13 +24,6 @@ describe('SPAX', () => {
     expect(Object.keys(context)).to.include(
       'name', 'version', 'element', 'component', 'scope', 'prefix', 'routes', 'Vue'
     )
-  })
-
-  it('should configure', () => {
-    expect(configure).to.be.a('function')
-    configure({
-      prefix: 'myapp'
-    })
   })
 
   it('should use and run', () => {

@@ -2,6 +2,7 @@
 *.log
 *.out
 
+.rpt2_cache
 .vscode
 coverage
 node_modules

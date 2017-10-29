@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('callback', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('callback', () => {
   })
 
   it('should have dispatch and subscribe', () => {
-    const { use, run } = new SPAX()
+    const { use, run } = createSPAX()
     use(() => {
       return ({ dispatch, subscribe }) => {
         expect(dispatch).to.be.a('function')
@@ -26,7 +26,7 @@ describe('callback', () => {
   })
 
   it('should add scrope to dispatch and subscribe', () => {
-    const { use, run } = new SPAX()
+    const { use, run } = createSPAX()
     use(() => {
       return [{
         store: {

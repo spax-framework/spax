@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 
 describe('register.plugins', () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('register.plugins', () => {
   })
 
   it('should handle plugins', done => {
-    const { use, run } = new SPAX()
+    const { use, run } = createSPAX()
     use(context => {
       return {
         plugins: [store => {

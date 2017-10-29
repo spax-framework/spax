@@ -1,6 +1,6 @@
-import analyseMap from 'spax/helpers/analyse-map'
-import addPrefixToPath from 'spax/helpers/add-prefix'
-import injectOptionsToComponent from 'spax/helpers/inject-options'
+import analyseMap from 'src/helpers/analyse-map'
+import addPrefixToPath from 'src/helpers/add-prefix'
+import injectOptionsToComponent from 'src/helpers/inject-options'
 
 describe('analyseMap', () => {
   it('`s/v as a`', () => {

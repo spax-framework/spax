@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex, { Store } from 'vuex'
 import Router from 'vue-router'
-import map from 'spax/context/plugins/map'
-import redirect from 'spax/context/plugins/redirect'
-import * as log from 'spax/shared/log'
+import map from 'src/context/plugins/map'
+import redirect from 'src/context/plugins/redirect'
+import * as log from 'src/shared/log'
 
 Vue.use(Vuex)
 Vue.use(Router)

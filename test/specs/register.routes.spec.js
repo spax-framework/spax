@@ -1,4 +1,4 @@
-import SPAX from 'spax'
+import createSPAX from 'src'
 import Vue from 'vue'
 
 describe('register.routes', () => {
@@ -16,9 +16,7 @@ describe('register.routes', () => {
   })
 
   it('should handle simple routes', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       prefix: 'myapp',
       component: {
         template: '<router-view></router-view>'
@@ -53,9 +51,7 @@ describe('register.routes', () => {
   })
 
   it('should handle redirect', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       component: {
         template: '<router-view></router-view>'
       }
@@ -89,9 +85,7 @@ describe('register.routes', () => {
   })
 
   it('should handle alias', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       component: {
         template: '<router-view></router-view>'
       }
@@ -122,9 +116,7 @@ describe('register.routes', () => {
   })
 
   it('should handle components', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       component: {
         template: `<div>
           <router-view></router-view>
@@ -162,9 +154,7 @@ describe('register.routes', () => {
   })
 
   it('should handle children routes', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       prefix: 'myapp',
       component: {
         template: '<router-view></router-view>'
@@ -208,9 +198,7 @@ describe('register.routes', () => {
   })
 
   it('should handle async routes', done => {
-    const { configure, use, run } = new SPAX()
-
-    configure({
+    const { use, run } = createSPAX({
       prefix: 'myapp',
       component: {
         template: '<router-view></router-view>'
@@ -249,9 +237,7 @@ describe('register.routes', () => {
 
   describe('exception', () => {
     it('should ONLY use single file components', () => {
-      const { configure, use, run } = new SPAX()
-
-      configure({
+      const { use, run } = createSPAX({
         prefix: 'myapp',
         component: {
           template: '<router-view></router-view>'
