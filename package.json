@@ -2,11 +2,11 @@
   "name": "spax",
   "version": "1.0.0-alpha",
   "description": "Single Page Application Extended",
-  "main": "index.js",
-  "module": "lib/index.js",
+  "main": "spax.common.js",
+  "module": "spax.es.js",
   "files": [
-    "index.js",
-    "lib"
+    "spax.es.js",
+    "spax.common.js"
   ],
   "types": [
     "types/index.d.ts"
@@ -68,6 +68,7 @@
     "regenerator-runtime": "^0.11.0",
     "rollup": "^0.50.0",
     "rollup-plugin-buble": "^0.16.0",
+    "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-typescript2": "^0.8.0",
     "sinon": "^3.2.1",
     "ts-loader": "^3.0.5",

@@ -14,7 +14,7 @@ export default function createSPAX (options?: ContextOptions): SPAX {
   const context: Context = createContext({
     // 全局配置项
     name: 'SPAX',
-    version: '0.1.0',
+    version:  process.env.VERSION,
     element: '#app',
     component: null,
     scope: 'app',

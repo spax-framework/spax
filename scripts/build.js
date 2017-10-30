@@ -1,7 +1,7 @@
-var fs = require('fs')
 var rollup = require('rollup')
-var buble = require('rollup-plugin-buble')
 var typescript = require('rollup-plugin-typescript2')
+var buble = require('rollup-plugin-buble')
+var replace = require('rollup-plugin-replace')
 var version = require('../package.json').version
 
 var banner =
@@ -11,50 +11,32 @@ var banner =
   ' * Released under the MIT License.\n' +
   ' */'
 
-rollup.rollup({
-  input: 'src/index.ts',
-  plugins: [
-    typescript(),
-    buble()
-  ]
-})
-.then(function (bundle) {
-  // es
-  bundle.generate({
-    format: 'es',
-    banner
-  }).then(function (bundle) {
-    return write('index.js', bundle.code)
+async function build (out, replacement) {
+  const bundle = await rollup.rollup({
+    input: 'src/index.ts',
+    plugins: [
+      typescript(),
+      buble(),
+      replace(replacement)
+    ]
   })
 
-  // cjs
-  bundle.generate({
-    format: 'cjs',
-    banner
-  }).then(function (bundle) {
-    return write('lib/index.js', bundle.code)
+  await bundle.write(out)
+}
+
+(async function () {
+  await build({
+    file: 'spax.es.js',
+    format: 'es'
+  }, {
+    'process.env.VERSION': JSON.stringify(version)
   })
-})
-.catch(logError)
 
-function write (dest, code) {
-  return new Promise(function (resolve, reject) {
-    fs.writeFile(dest, code, function (err) {
-      if (err) return reject(err)
-      console.log(blue(dest) + ' ' + getSize(code))
-      resolve()
-    })
+  await build({
+    file: 'spax.common.js',
+    format: 'cjs'
+  }, {
+    'process.env.VERSION': JSON.stringify(version),
+    'process.env.NODE_ENV': JSON.stringify('production')
   })
-}
-
-function getSize (code) {
-  return (code.length / 1024).toFixed(2) + 'kb'
-}
-
-function logError (e) {
-  console.log(e)
-}
-
-function blue (str) {
-  return '\x1b[1m\x1b[34m' + str + '\x1b[39m\x1b[22m'
-}
+})()

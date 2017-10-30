@@ -1,3 +1,5 @@
+// export default function createSPAX(options?: ContextOptions): SPAX;
+
 interface SPAX {
   context: Context
   middlewares: Middleware[]

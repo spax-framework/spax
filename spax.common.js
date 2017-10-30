@@ -1,8 +1,3 @@
-/*!
- * SPAX v1.0.0-alpha
- * (c) 2017 crossjs
- * Released under the MIT License.
- */
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -49,7 +44,7 @@ var createVueRouter = function (routes) {
 Vue.use(Vuex__default);
 var createVuexStore = function (modules, plugins) {
     return new Vuex.Store({
-        strict: process.env.NODE_ENV === 'development',
+        strict: "production" === 'development',
         plugins: plugins,
         modules: modules
     });
@@ -81,16 +76,6 @@ function analyseMap(value, scope) {
     }
     return { scope: scope, value: value, alias: alias };
 }
-
-var log = function log(msg) {
-    console.log("[SPAX] " + msg);
-};
-var warn = function warn(msg) {
-    console.error("[SPAX warn] " + msg);
-};
-var error = function error(msg) {
-    throw new Error("[SPAX error] " + msg);
-};
 
 var map = {
     install: function (Vue$$1) {
@@ -137,9 +122,7 @@ var map = {
                         });
                     }
                     else {
-                        if (process.env.NODE_ENV !== 'production') {
-                            warn('mapState must be an array: ' + JSON.stringify(mapState));
-                        }
+                        
                     }
                 }
                 if (mapGetters) {
@@ -158,19 +141,12 @@ var map = {
                             var _a = analyseMap(value, _this.$scope), _alias = _a.alias, _scope = _a.scope, _value = _a.value;
                             computed[_alias] = function mappedGetter() {
                                 var _key = _scope + "/" + _value;
-                                if (!(_key in this.$store.getters)) {
-                                    if (process.env.NODE_ENV !== 'production') {
-                                        warn('unknown getter: ' + value);
-                                    }
-                                }
                                 return this.$store.getters[_key];
                             };
                         });
                     }
                     else {
-                        if (process.env.NODE_ENV !== 'production') {
-                            warn('mapGetters must be an array: ' + JSON.stringify(mapGetters));
-                        }
+                        
                     }
                 }
                 if (mapActions) {
@@ -200,9 +176,7 @@ var map = {
                         });
                     }
                     else {
-                        if (process.env.NODE_ENV !== 'production') {
-                            warn('mapActions must be an array: ' + JSON.stringify(mapActions));
-                        }
+                        
                     }
                 }
                 if (mapMutations) {
@@ -232,9 +206,7 @@ var map = {
                         });
                     }
                     else {
-                        if (process.env.NODE_ENV !== 'production') {
-                            warn('mapMutations must be an array: ' + JSON.stringify(mapMutations));
-                        }
+                        
                     }
                 }
                 Object.assign(this.$options, { computed: computed, methods: methods });
@@ -325,7 +297,7 @@ function createSPAX(options) {
      */
     var context = createContext(__assign({ 
         // 全局配置项
-        name: 'SPAX', version: '0.1.0', element: '#app', component: null, scope: 'app', prefix: '/', 
+        name: 'SPAX', version: "1.0.0-alpha", element: '#app', component: null, scope: 'app', prefix: '/', 
         // Vuex.Store
         // store: null,
         // Vue-Router
@@ -360,9 +332,7 @@ function createSPAX(options) {
             middlewares.push({ creator: creator, options: options });
         }
         else {
-            if (process.env.NODE_ENV !== 'production') {
-                error('`creator` must be a function.');
-            }
+            
         }
     }
     var isRun = false;
@@ -373,10 +343,6 @@ function createSPAX(options) {
      */
     function run(finale) {
         if (isRun) {
-            if (process.env.NODE_ENV !== 'production') {
-                error('should `run` only once.');
-            }
-            // 不允许多次执行
             return;
         }
         isRun = true;
@@ -385,9 +351,6 @@ function createSPAX(options) {
         var scopeIndex = Date.now();
         // 初始化 Vuex Store
         var store = createStore(context);
-        if (process.env.NODE_ENV !== 'production') {
-            log('Registering modules...');
-        }
         var callbacks = [];
         var globalPrefix = context.prefix, routes = context.routes;
         function registerModule(scope, obj) {
@@ -404,11 +367,6 @@ function createSPAX(options) {
             // 将 prefix 添加到 vm.$options
             function injectOptions(component, injection) {
                 if (isFunction(component)) {
-                    if (process.env.NODE_ENV !== 'production') {
-                        if (component.super && component.super === Vue$$1) {
-                            error('Please use Single File Components. See: https://vuejs.org/v2/guide/single-file-components.html.');
-                        }
-                    }
                     return function () { return component().then(function (component) { return injectOptionsToComponent(component, injection); }); };
                 }
                 else {
@@ -454,9 +412,7 @@ function createSPAX(options) {
                 var _a = data.options, options_1 = _a === void 0 ? Object.create(null) : _a, store_1 = data.store, plugins = data.plugins, routes_1 = data.routes;
                 var scope = options_1.scope, prefix = options_1.prefix;
                 if (scope === context.scope) {
-                    if (process.env.NODE_ENV !== 'production') {
-                        error("Scope " + scope + " is protected.");
-                    }
+                    
                 }
                 else {
                     if (!prefix) {
@@ -464,9 +420,6 @@ function createSPAX(options) {
                     }
                     if (!scope) {
                         scope = "__" + ++scopeIndex;
-                    }
-                    if (process.env.NODE_ENV !== 'production') {
-                        log("Module " + scope + " registered.");
                     }
                     store_1 && registerModule(scope, store_1);
                     routes_1 && registerRoutes(scope, prefix, routes_1);
@@ -488,10 +441,6 @@ function createSPAX(options) {
             // next()
         }
         function done() {
-            if (process.env.NODE_ENV !== 'production') {
-                log('Executing module callbacks');
-            }
-            // 模块注册完成后，初始化路由，以避免重定向提前发生
             var router = createRouter(context);
             // 判断是否挂载完毕
             function ensure(fn) {
@@ -543,10 +492,6 @@ function createSPAX(options) {
                     ret
                         .then(function (ret) { return register.apply(null, Array.isArray(ret) ? ret : [ret]); })
                         .catch(function (e) {
-                        if (process.env.NODE_ENV !== 'production') {
-                            warn(e);
-                        }
-                        // 无可注册
                         register();
                     });
                 }
@@ -555,10 +500,6 @@ function createSPAX(options) {
                 }
             }
             else {
-                if (process.env.NODE_ENV !== 'production') {
-                    log("Module " + creator + " return falsy value: " + ret);
-                }
-                // 无可注册
                 register();
             }
         });
