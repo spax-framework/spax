@@ -1,6 +1,6 @@
 {
   "name": "spax",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "description": "Single Page Application Extended",
   "main": "spax.common.js",
   "module": "spax.es.js",

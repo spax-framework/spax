@@ -27,14 +27,16 @@ async function build (out, replacement) {
 (async function () {
   await build({
     file: 'spax.es.js',
-    format: 'es'
+    format: 'es',
+    banner: banner
   }, {
     'process.env.VERSION': JSON.stringify(version)
   })
 
   await build({
     file: 'spax.common.js',
-    format: 'cjs'
+    format: 'cjs',
+    banner: banner
   }, {
     'process.env.VERSION': JSON.stringify(version),
     'process.env.NODE_ENV': JSON.stringify('production')

@@ -1,3 +1,8 @@
+/*!
+ * SPAX v1.0.0
+ * (c) 2017 crossjs
+ * Released under the MIT License.
+ */
 'use strict';
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
@@ -297,7 +302,7 @@ function createSPAX(options) {
      */
     var context = createContext(__assign({ 
         // 全局配置项
-        name: 'SPAX', version: "1.0.0-alpha", element: '#app', component: null, scope: 'app', prefix: '/', 
+        name: 'SPAX', version: "1.0.0", element: '#app', component: null, scope: 'app', prefix: '/', 
         // Vuex.Store
         // store: null,
         // Vue-Router
